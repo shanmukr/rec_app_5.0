@@ -1,0 +1,10 @@
+<tr id="hide">
+  <td>
+	  <%= form_tag(comment_new_resumes_path, :onsubmit => "auto_hide_the_fields(event, \'#{@resume}\', 'Commented');", remote: true) do %>
+      <%= text_area_tag "comment",nil, :id => @resume %>
+			<%= hidden_field_tag "id", @resume %>
+			<%= hidden_field_tag "type", "USER" %>
+			<%= submit_tag "Go" %>
+		<% end %>
+  </td>
+</tr>

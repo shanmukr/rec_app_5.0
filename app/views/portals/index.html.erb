@@ -1,0 +1,32 @@
+<div class="top_padding_50">
+  <div class="well well-sm">
+    <span class="lead"> Portals : </span>
+    <span class="badge"> <%= @portals.size %> </span>
+    <span class="pull-right">
+      <%= link_to 'Add Portal', new_portal_path, :class=>"btn btn-primary" %>
+    </span>
+  </div>
+  
+  <div class="well table-sm table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Portal Name </th>
+          <th>Created On</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @portals.each_with_index do |portal, index| %>
+          <tr>
+            <td><%= index + 1 %></td>  
+            <td><%= portal.name %></td>  
+            <td><%= print_date(portal.created_at) %></td>
+            <td><%= link_to 'Edit', edit_portal_path(portal) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

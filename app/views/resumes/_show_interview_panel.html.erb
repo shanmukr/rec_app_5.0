@@ -1,0 +1,27 @@
+<tr id="hide">
+  <td>
+	  <%= form_tag(create_new_interview_resumes_path, :onsubmit => "auto_hide_the_fields(event);", remote: true) do %>
+      <%= text_field_tag :emp_name, params[:emp_name], :onfocus => 'auto_complete_for_emp_names_at_resumes_interviews()', :placeholder => "Search employee name" %>
+      <%= text_field_tag "i_date", nil, :id => "datetimepicker12", :placeholder => "Interview date" %>
+			<%= text_area_tag "focus", nil, :placeholder => "Enter Focus" %>
+			<%= select_tag "i_stage", options_for_select(["FULLPANEL", "SCREENING"]) %>
+			<%= select_tag "i_type", options_for_select(["FACETOFACE", "TELEPHONIC"]) %>
+			<%= hidden_field_tag "resume_id", @resume %>
+			<%= hidden_field_tag "type", "USER" %>
+			<%= hidden_field_tag "req_id", @req_ids %>
+			<%= hidden_field_tag "r_status", @r_status %>
+			<%= hidden_field_tag "i_status", @i_status %>
+			<%= submit_tag "Go" %>
+		<% end %>
+  </td>
+</tr>
+
+<script type="text/javascript">
+  $(function () {
+	  $('#datetimepicker12').datetimepicker({
+		  inline: true,
+			sideBySide: true,
+			format: 'DD-MM-YYYY HH:mm'
+		});
+  });
+</script>

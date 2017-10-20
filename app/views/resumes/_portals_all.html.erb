@@ -1,0 +1,7 @@
+<tr>
+  <td>
+	  <%= select_tag "portal", options_for_select(get_all_portals_names) %>
+		<%= hidden_field_tag "type", "PORTAL" %>
+	  <% link_to "If Portal is not in list. Add here", :controller => "portals", :action => "new" %>
+  </td>
+</tr>

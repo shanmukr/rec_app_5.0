@@ -1,0 +1,28 @@
+<div class="top_padding_50">
+  <div class="well well-sm">
+    <span class="lead">
+      <%= (go_action=="Edit") ? "Editing the Agency" : "Create the new Agency" %>
+    </span>
+    <span class="pull-right label">
+      <% if (go_action=="Edit") %>
+        <%= link_to "List of Agencies", :action => "index" %>
+        <%= link_to "Delete", @agency, method: :delete, data: {confirm:"You want to delete the Agency (#{@agency.name})"},  class:"btn btn-danger" %>
+      <% else %>
+			  <%= link_to "Back", :action => "index" %>
+      <% end%>
+    </span>
+  </div>
+
+  <div class="well">
+    <% action=  (go_action == "Edit") ? "update" : "create" %>
+    <%= form_for @agency, url: {action: action } do |f| %>
+      <div class="form-group">
+        <div class="row">
+          <div class="lead col-sm-4"> Agency name </div>
+          <div class="col-sm-4"><%= f.text_field :name, :class => "form-control" %></div>
+        </div>
+        <%= f.submit ((go_action=="Edit") ? "Update" : "Save"), :class=> 'btn btn-primary' %>
+      </div>
+    <% end %>
+  </div>
+</div>

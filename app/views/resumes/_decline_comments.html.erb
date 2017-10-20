@@ -1,0 +1,12 @@
+<tr>
+  <td>
+	  <%= form_tag(decline_interview_resumes_path) do %>
+      <%= text_area_tag "comment",nil, :id => @interview.id %>
+			<%= hidden_field_tag "id", @interview.id %>
+			<%= hidden_field_tag "resume_id", @resume_id %>
+			<%= hidden_field_tag "req_id", @req_id %>
+			<%= hidden_field_tag "type", "USER" %>
+			<%= submit_tag "Go" %>
+		<% end %>
+  </td>
+</tr>

@@ -1,0 +1,21 @@
+<div class="top_padding_50">
+  <div class="well well-sm">
+    <span class="lead"> <%= @group.name%></span>
+    <span class="pull-right">
+      <%= link_to "Back", :action => "index" %>
+      <%= link_to "EDIT", edit_group_path(@group), :class=>"btn btn-primary"  %>
+    </span>
+  </div>
+
+  <div class="well well-sm">
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+        <td>Name of Group Owner</td>
+        <td><%= @group.employee.name %></td>
+        </tr>
+      </tbody>
+    </table>
+    <%= link_to "List of Groups", :action => "index" %>
+  </div>
+<div>

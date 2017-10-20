@@ -1,0 +1,30 @@
+<div class="top_padding_50">
+  <div class="well well-sm">
+    <span class="lead">
+      <%= (go_action=="Edit") ? "Editing the Group" : "Create the Group" %>
+    </span>
+    <span class="pull-right label">
+      <% if( go_action == "Edit") %>
+        <%= link_to "List of Groups", :action => "index" %> 
+        <%= link_to "Delete", @group, method: :delete, data: { confirm: "Are you sure.you want to delete the Group (#{@group.name})?"}, class:"btn btn-danger" %>
+      <% else %>
+        <%= link_to "Back", :action => "index" %>
+      <% end %>
+    </span>
+  </div>
+  <div class="well">
+    <%= form_for @group, url: {action: (go_action == "Edit") ? "update" : "create" } do |f| %>
+      <div class="form-group">
+        <div class="row">
+          <div class="lead col-sm-4"> Group name </div>
+          <div class="col-sm-4"><%= f.text_field :name, :class => "form-control" %></div>
+        </div>
+        <div class="row">
+          <div class="lead col-sm-4"> Owner Name  </div>
+          <div class="col-sm-4"><%= f.collection_select(:employee_id, @employees, :id, :name, { :prompt => "Please select" }, :class => "form-control" ) %></div>
+        </div>
+        <%= f.submit ((go_action=="Edit") ? "Update" : "Save"), :class=> 'btn btn-primary' %> </div>
+      </div>  
+    <% end %>
+  </div>
+</div>

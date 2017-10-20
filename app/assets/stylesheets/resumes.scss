@@ -1,0 +1,17 @@
+// Place all the styles related to the resumes controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.pull_down{
+  position      : fixed;
+  width         : 100%;
+  padding       : 0 1%;
+  bottom        : 0px;
+	.well {
+		margin-bottom: 0px;
+	}
+	.nav > li > a {
+    padding: 0px 15px;
+  }
+}
+ 

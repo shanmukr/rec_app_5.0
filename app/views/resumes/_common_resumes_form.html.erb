@@ -1,0 +1,88 @@
+<div class="top_padding_50">
+  <div class="well well-sm">
+    <span class="lead">
+      <%= (go_action=="Edit") ? "Editing the Resume" : "Upload New Resume" %>
+    </span>
+    <span class="pull-right">
+      <%= link_to "Back", :action => "index" %>
+    </span>
+  </div>
+  <div class="well well-sm">
+    <% action = (go_action == "Edit") ? "update" : "create" %>
+    <%= form_for( @resume, :url => { action: action } ) do |f| %>  
+      <div class="row">
+        <div class="lead col-sm-4">Name</div>
+        <div class="col-sm-4"> <%= f.text_field :name, :class => 'form-control' %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Email</div>
+        <div class="col-sm-4"> <%= f.text_field :email, :class => 'form-control' %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Phone Number</div>
+        <div class="col-sm-4"> <%= f.text_field :phone, :class => 'form-control' %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Skype id</div>
+        <div class="col-sm-4"> <%= f.text_field :skype_id, :class => 'form-control' %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Current CTC</div>
+        <div class="col-sm-4"> <%= f.text_field :ctc, :class => 'form-control' %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Expected CTC</div>
+        <div class="col-sm-4"> <%= f.text_field :expected_ctc, :class => 'form-control' %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Notice Period</div>
+        <div class="col-sm-4"> <%= f.text_field :notice, :class => 'form-control' %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Experience</div>
+        <div class="col-sm-2"> <%= f.select_tag "exp[years]", options_for_select(get_experience_inyears), :class => 'form-control' %> </div>
+        <div class="col-sm-2"> <%= f.select_tag "exp[months]", options_for_select(get_experience_in_months), :class => 'form-control' %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Current Company</div>
+        <div class="col-sm-4"> <%= f.text_field :current_company, :class => 'form-control' %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Location of candidate</div>
+        <div class="col-sm-4"> <%= f.text_field :location, :class => 'form-control' %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Candidate's Qualification</div>
+        <div class="col-sm-4"> <%= f.text_field :qualification, :class => 'form-control' %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Summary about this resume </div>
+        <div class="col-sm-4"> <%= f.text_area :summary, :class => 'form-control' %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Resume Path</div>
+        <div class="col-sm-4"> <%= f.file_field :file_name  %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Requirement Name</div>
+        <div class="col-sm-4"> <%= select_tag "requirement_name", options_for_select(get_open_reqs), :multiple => true, :class => 'form-control' %> </div>
+	    </div>
+      <div class="row">
+        <div class="lead col-sm-4">Referral of resume </div>
+        <div class="col-sm-1", id="employees"> 
+				  <%= link_to "Employee", :controller => "resumes", :action => "employee_all", remote: true  %>
+				</div>
+        <div class="col-sm-1", id="portals"> 
+				  <%= link_to "Portals", :controller => "resumes", :action => "portals_all", remote: true %>
+				</div>
+        <div class="col-sm-1", id="agencies"> 
+				  <%= link_to "Agencies", :controller => "resumes", :action => "agencies_all", remote: true %>
+				</div>
+        <div class="col-sm-1" id="direct"> 
+				  <%= link_to "Direct", :controller => "resumes", :action => "direct", remote: true %>
+				</div>
+	    </div>
+      <%= f.submit ("Save"), class:"btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

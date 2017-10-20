@@ -1,0 +1,57 @@
+<div class="top_padding_50">
+  <div class="well well-sm">
+    <span class="pull-right">
+      <%= link_to "Back", :action => "index" %>
+    </span>
+		<% if ( params[:action] == "resumes_offered" ) %>
+		  <span class="lead"> Offered (<%= @resumes.size %>)</span><br />
+		<% end %>
+		<span>
+		  <% if @resumes.size == 0 %>
+			  <%= "No Resumes Found" %>
+			<% end %>
+		</span>
+  </div>
+
+  <% if @resumes.size != 0 %>
+    <div class="well well-sm">
+      <div class="table-sm table-responsive">
+        <table class="table table-striped table-condensed"> 
+          <thead >
+            <tr>
+              <th>Resume Name         </th>
+              <th>Requirement Name    </th>
+              <th>Location            </th>
+              <th>Mark joining        </th>
+              <th>Action              </th>
+						</tr>
+					</thead>
+					<tbody>
+					  <% @resumes.each do |f| %>
+					    <tr>
+						    <td><%= link_to f.resume.name, {:action => "show", :id => f.resume.id } %></td>
+						    <td><%= link_to f.requirement.name, {:controller => "requirements", :id => f.requirement.id } %></td>
+						    <td><%= f.resume.location %></td>
+								<%= form_tag( mark_as_joining_resumes_path ) do %>
+						      <td>
+									  <%= text_field_tag "date", nil, :id => f.resume.id, :class => "datepicker" %>
+										<%= hidden_field_tag "id",  f.resume.id %>
+										<%= submit_tag "Go" %>
+									</td>
+								<% end %>
+						    <td><%= link_to "Not Accepted", {:action => "move_to_future", :res => f.resume.id, :r_status => "N_ACCEPTED"}, class: "btn btn-primary" %></td>
+						  </tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	<% end %>
+</div>
+<script>
+$(document).ready(function(){
+  $(".datepicker").datepicker(
+      {format: 'dd-mm-yyyy', autoclose: true, minDate: 0}
+      );
+})
+</script> 

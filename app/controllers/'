@@ -1,0 +1,51 @@
+class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception
+
+  def get_all_employees
+      Employee.all
+  end
+  
+  def get_all_desigantions
+      Designation.all
+  end
+  
+  def get_all_groups
+      Group.all
+  end
+  
+  def get_all_accounts
+      Account.all
+  end
+
+  def get_month_year
+    @month          = Date.today.month 
+    @year           = Date.today.year 
+    [ @month, @year ]
+  end
+
+  def get_logged_employee(cur_emp)
+    cur_employee = Employee.find_by( login: cur_emp )     
+    cur_employee
+  end
+  
+  def change_date_format(date)
+    if date.present?
+      date.strftime("%Y-%m-%d")
+    else
+      flash[:danger] = "Please select the date."
+    end
+  end
+
+  def log_errors(object)
+    unless object.valid?
+      object.errors.full_messages.each { |mesg|
+        logger.info(mesg)
+        if flash[:danger].nil? 
+          flash[:danger] = mesg
+        else
+          flash[:danger] = flash[:danger] + ", " + mesg 
+        end
+      }
+    end
+  end
+end

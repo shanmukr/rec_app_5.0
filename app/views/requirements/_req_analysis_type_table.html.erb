@@ -1,0 +1,17 @@
+<div class="top_padding_50">
+  <div class="well">
+    <span class="pull-left lead col-sm-4">  
+      <%= link_to @previous_m, {:controller => "requirements", :action => "req_analysis", :sample => "previous" }, class: "font_size_100" %>
+    </span>
+    <span class="pull-right text-right lead col-sm-4">  
+      <%= link_to @next_m, {:controller => "requirements", :action => "req_analysis", :sample => "next" }, class: "font_size_100" %>
+    </span>
+    <span class="text-center lead col-sm-4">  
+      <%= link_to @current_m, {:controller => "requirements", :action => "req_analysis", :sample => "current" }, class: "font_size_100" %>
+    </span>
+    <% @req_analysis_data.each do |key, value| %>
+      <%= key %>
+      <%= column_chart (value.map { |k, v| {name: k, data: v} }), :xtitle => "< < - - - - Months - - - - > >", :ytitle => "Number of positions" %>
+    <% end %>
+  </div>
+</div>

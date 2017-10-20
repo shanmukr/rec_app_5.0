@@ -1,0 +1,36 @@
+<div class="top_padding_50">
+<div class="well well-sm">
+  <span class="lead">
+      <%= (go_action=="Edit") ? "Edit the Designation (#{@designations.name})" : "Create the Desigantion" %>
+  </span>
+  <% if(go_action="Edit") %>
+    <span class="pull-right label">
+      <%= link_to "Delete", @designations, method: :delete, class:"btn btn-danger" %>
+    </span>
+  <% else %>
+    <span class="pull-right lable">
+				  <%= link_to "Back", :action => "index" %>
+    </span>
+  <% end%>
+</div>
+<div class="well">
+  <% action=  (go_action == "Edit") ? "update" : "create" %>
+  <%= form_for @designations, url: {action: action } do |f| %>
+    <div class="alert alert-danger">
+      <% @designations.errors.full_messages.each do |m| %>
+        <%= m %>
+        <% end %>
+    </div>
+    <div class="form-group">
+        <span class="lead"> Designation name </span>
+        <%= f.text_field :name, style: 'width:30%', :class => "form-control" %>
+    </div>
+    <div class="form-group">
+        <%= f.submit ((go_action=="Edit") ? "Update" : "Save"), :class=> 'btn btn-primary' %> </div>
+    </div>  
+  <% end %>
+  <span class="pull-left">
+      <%= link_to "Designations", :action => "index" %>
+  </span>
+</div>
+</div>

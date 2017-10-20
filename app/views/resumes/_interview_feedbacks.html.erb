@@ -1,0 +1,10 @@
+<tr>
+  <td>
+	  <%= form_tag(create_feedback_resumes_path) do %>
+      <%= text_area_tag "comment",nil, :id => @resume_id %>
+			<%= select_tag "rating", options_for_select(["Poor", "Fair", "Good", "Very Good", "Excellent"]) %>
+			<%= hidden_field_tag "resume_id", @resume_id %>
+			<%= submit_tag "Go" %>
+		<% end %>
+  </td>
+</tr>

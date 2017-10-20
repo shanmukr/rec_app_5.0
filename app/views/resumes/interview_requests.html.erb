@@ -1,0 +1,58 @@
+<div class="top_padding_50">
+  <div class="well well-sm">
+    <span class="pull-right">
+      <%= link_to "Back", :action => "index" %>
+    </span>
+		<span class="lead">Interview requests (<%= @interviews.size %>)</span><br />
+    <span class="lead">  
+      <% if @interviews.size == 0 %>
+        <span><%= "No Interviews Found" %></span>    
+      <% end %>
+    </span>  
+	</div>
+	<% if @interviews.size != 0 %>
+		<div class="well well-sm">
+      <div class="table-sm table-responsive">
+        <table class="table table-condensed"> 
+          <thead >
+            <tr>
+						  <th>Name              </th>
+						  <th>Date/Time         </th>
+						  <th>Req               </th>
+						  <th>Type              </th>
+						  <th>Focus             </th>
+						  <th>Actions           </th>
+						</tr>
+					</thead>
+					<tbody>
+					  <% @interviews.each do |f| %>
+					    <tr id="<%= "interview_id_"+ f.id.to_s %>">
+							  <% if f.status == "DECLINED" %>
+								<tr style="background: #FF8080;">
+								<% end %>
+                <td><p title='Qualification : <%= f.req_match.resume.qualification %>&#13Experience : <%= f.req_match.resume.experience %>&#13Company : <%= f.req_match.resume.current_company %>' ><%=  link_to f.req_match.resume.name, { :action => "show", :id => f.id } %></td>
+								<td><%= print_interview_time(f.interview_time, f.interview_date) %></td>
+                <td><p title='Skill : <%= f.req_match.requirement.skill %>&#13Desc : <%= f.req_match.requirement.description %>'><%=  link_to f.req_match.requirement.name, { :controller => "requirements", :action => "show", :id => f.req_match.requirement.id } %></td>
+								<td><%= f.itype %></td>
+								<td><%= f.focus %></td>
+								<td>
+				          <ul class="nav" role="navigation">
+                    <li class="nav-item dropdown">
+                      <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Action
+                        <span class="caret"></span>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li> <%= link_to "Decline", :controller => "resumes", :action => "decline_resume", :id => f.id, :resume_id => f.req_match.resume_id, :req_id => f.req_match.requirement_id, remote: true %></li>
+                        <li> <%= link_to "Add feddback", :controller => "resumes", :action => "feedbacks", :id => f.id, :resume_id => f.req_match.resume_id, remote: true %></li>
+                      </ul>
+                    </li>
+				          </ul>
+								</td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+    </div>
+  <% end %>
+</div>

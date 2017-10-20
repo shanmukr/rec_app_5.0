@@ -1,0 +1,25 @@
+<div class="top_padding_50">
+  <div class="well well-sm">
+    <span class="lead"><%= "All Employees" %></span>
+  </div>
+</div>
+<div class="well well-sm">
+  <div class="table-sm table-responsive">
+    <table class="table table-striped" >
+      <thead>
+        <tr>  
+          <th>#</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>        
+        <%= @employees.each_with_index do | employee, index |%>
+        <tr>
+          <td><%= index %></td>
+          <td><%= link_to employee.name, { :controller => "employees", :action => "login_to_selected_employee", :login => employee.login } %> </td><br />
+        </tr>
+        <% end %>
+      </tbody> 
+    </table>
+  </div>        
+</div>

@@ -1,0 +1,33 @@
+<div class="top_padding_50">
+<div class="well well-sm">
+  <span class="lead"> Groups :</span>
+  <span class="badge"> <%= @groups.size %></span>
+  <span class="pull-right">
+    <%= link_to 'Add Group', new_group_path, :class=>"btn btn-primary" %>
+  </span>
+</div>
+
+<div class="well table-responsive">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th> # </th>
+      <th>Group Name </th>
+      <th>Owner Name</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @groups.each_with_index do |group, index| %>
+      <tr>
+        <td><%= index + 1 %></td>  
+        <td><%= link_to group.name, { :action => "show", :id => group.id } %></td>  
+        <td><%= group.employee.name %></td>
+        <td><%= link_to 'Edit', edit_group_path(group) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+</div>

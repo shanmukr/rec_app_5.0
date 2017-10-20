@@ -1,0 +1,62 @@
+<div class="top_padding_50">
+  <div class="well well-sm">
+    <span class="pull-right">
+      <%= link_to "Back", :action => "index" %>
+    </span>
+    <% if (params[:action] == "inbox") %>
+      <span class="lead"> Inbox (<%= @messages.size %>) </span><br />
+    <% elsif (params[:action] == "outbox") %>
+      <span class="lead"> Outbox (<%= @messages.size %>) </span><br />
+    <% elsif (params[:action] == "trash") %>
+      <span class="lead"> Trash (<%= @messages.size %>) </span><br />
+    <% end %>
+    <span>  
+      <% if @messages.size == 0 %>
+        <%= "No messages Found" %>    
+      <% end %>
+    </span>  
+  </div>
+
+  <% if @messages.size != 0 %>
+    <div class="well well-sm">
+      <div class="table-sm table-responsive">
+        <%= form_tag( message_delete_resumes_path ) do %>        
+          <table class="table table-striped table-condensed">
+            <thead>
+              <tr>
+                <th>Resume                        </th> 
+                <th>Message                       </th> 
+                <th>sent on                       </th> 
+								<% if params[:action] == "outbox" %>
+                  <th>Sent to                     </th> 
+								<% else %>
+                  <th>Sent by                     </th> 
+								<% end %>
+                <% if (params[:action] != "trash") %>
+                  <th><%= submit_tag 'Delete', data: {confirm: "Are you sure.you want to delete the message"}, class: "btn btn-danger" %></th>
+                <% end %>
+              </tr>
+            </thead>
+            <tbody>
+              <% @messages.each do |f| %>
+                <tr id="<%= "options1_" + f.id.to_s %>">
+                  <td><%= link_to f.resume.name, {:controller => "resumes", :action => "show", :id => f.resume.id } %></td>
+                  <td><%= link_to f.message, {:controller => "resumes", :action => "show_message", :resume_id => f.resume.id, :mes_id => f.id, remote: true} %></td>
+                  <td><%= print_date(f.created_at) %></td>
+									<% if params[:action] == "outbox" %>
+                    <td><%= f.sent_to.name %></td>
+									<% else %>
+                    <td><%= f.sent_by.name %></td>
+									<% end %>
+                  <% if (params[:action] != "trash") %>
+                    <td> <%= check_box_tag "mesg_ids[]", f.id %></td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

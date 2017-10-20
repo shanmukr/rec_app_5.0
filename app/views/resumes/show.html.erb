@@ -1,0 +1,212 @@
+<div class="top_padding_50">
+  <div class="well well-sm">
+    <% if @resume.nreq_matches == 0 %>
+      <span class="lead"> <%= "#{@resume.name} (Status : NEW)." %> </span>
+    <% elsif @resume.nreq_matches != 0 %>
+      <span class="lead"> <%= "#{@resume.name} (Status : Forwarded)." %> </span>
+    <% end %>
+    <span id="options" class="pull-right">
+      <%= link_to "Back", :action => "index" %> 
+      <%= link_to "EDIT", edit_resume_path(@resume), :class=>"btn btn-primary"  %>    
+			<% if @resume.status == "FUTURE" || @resume.status == "N_ACCEPTED" %>
+        <%= link_to "Mark as Active", { :action => "move_to_future", :res => @resume.id, :r_status => "" }, class: "btn btn-primary" %> 
+			<% else %>
+        <%= link_to "Move to Future", { :action => "move_to_future", :res => @resume.id, :r_status => "FUTURE" }, class: "btn btn-primary" %> 
+			<% end %>
+        <%= link_to "Email", {:controller => "resumes", :action => "show_message", :id => @resume.id, remote: true} %>
+    </span>
+  </div>
+  <div class="well well-sm">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th> Fields </th>
+            <th> Values </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Resume Id</td>
+            <td><%= @resume.id %></td>
+          </tr>
+          <tr>
+            <td>Phone Number</td>
+            <td><%= @resume.phone %></td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td><%= @resume.email %></td>
+          </tr>
+          <tr>
+            <td>Skype Id</td>
+            <td><%= @resume.skype_id %></td>
+          </tr>
+          <tr>
+            <td>Qualification</td>
+            <td><%= @resume.qualification %></td>
+          </tr>
+          <tr>
+            <td>Experience</td>
+            <td><%= @resume.experience %></td>
+          </tr>
+          <tr>
+            <td>Current Company</td>
+            <td><%= @resume.current_company %></td>
+          </tr>
+          <tr>
+            <td>Location</td>
+            <td><%= @resume.location %></td>
+          </tr>
+          <tr>
+            <td>Current Ctc</td>
+            <td><%= @resume.ctc %></td>
+          </tr>
+          <tr>
+            <td>Excepted Ctc</td>
+            <td><%= @resume.expected_ctc %></td>
+          </tr>
+          <tr>
+            <td>Notice Period</td>
+            <td><%= @resume.notice %></td>
+          </tr>
+          <tr>
+            <td>Referral Type</td>
+            <td><%= @resume.referral_type %></td>
+          </tr>
+          <tr>
+            <td>Resume Summary</td>
+            <td><%= @resume.summary %></td>
+          </tr>
+          <tr>
+            <td>Resume Uploaded at</td>
+            <td><%= print_date(@resume.created_at) %></td>
+          </tr>
+        </tbody>
+      </table> 
+    </div>
+  </div>
+
+    <div class="well well-sm">
+      <span><%= "Comments : " %></span>    
+      <% if @comments.size == 0 %>
+          <br /><span><%= "No Comments Found" %></span>
+      <% else %>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Commented By</th>  
+                <th>Date</th>  
+                <th>Comment</th>  
+              </tr>
+            </thead>
+            <tbody>
+              <% @comments.each do |comment| %>
+                <tr>
+                  <td><%= comment.employee.name %></td>
+                  <td><%= print_date_time(comment.created_at) %></td>
+                  <td><%= comment.comment %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="well well-sm">
+      <span><%= "Feedbacks : " %></span>    
+      <% if @feedbacks.size == 0 %>
+          <br /><span><%= "No Feddbacks Found" %></span>
+      <% else %>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Feedback By</th>
+                <th>Date</th>
+                <th>Feedback</th>
+              </tr> 
+            </thead>
+            <tbody>
+              <% @feedbacks.each do |feedback| %>
+                <tr>
+                  <td><%= feedback.employee.name %></td> 
+                  <td><%= print_date_time(feedback.created_at) %></td>
+                  <td><%= feedback.feedback %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="well well-sm">
+      <span><%= "Messages : " %></span>    
+      <% if @messages.size == 0 %>
+          <br /><span><%= "No Messages Found" %></span>
+      <% else %>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>From</th> 
+                <th>To</th> 
+                <th>Date</th> 
+                <th>Message</th> 
+              </tr>
+            </thead> 
+            <tbody>
+              <% @messages.each do |message| %>
+                <tr>
+                  <td><%= message.sent_by.name %></td>
+                  <td><%= message.sent_to.name %></td>
+                  <td><%= print_date_time(message.created_at) %></td>
+                  <td><%= message.message %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="well well-sm">
+		  <span><%= "Resume deatils : " %></span>
+      <% if @req_status.size != 0 %>
+        <div class="table-responsive">
+		      <table class="table table-striped">
+		        <thead>
+			        <tr>
+				        <th>Req Name/Forwarded To</th>
+				        <th>Req Status</th>
+				        <th>Action</th>
+				      </tr>
+			      </thead>
+			      <tbody>
+				      <% @req_status.each do |f| %>
+			          <tr>
+							    <% if f.is_a?(ReqMatch) %>
+				            <td><p title='Skill : <%= f.requirement.skill %>&#13Desc : <%= f.requirement.description %>' ><%= link_to f.requirement.name, :controller => "requirements", :action => "show", :id => f.requirement.id %></td>
+								  <% else %>
+				            <td><%= f.forwarded_to.name %> ( <%  f.requirements.each do |r| %>
+  									                                 <%=link_to r.name, :controller => "requirements", :action => "show", :id => r.id %>,
+									                                   <% end %>
+										  														 )
+									  </td>
+								  <% end %>
+				          <td><%= f.status %></td>
+				          <td><%= "Actions" %></td>
+				        </tr>
+    				  <% end %>		
+  	  		  </tbody>
+    			</table>
+  	  	</div>
+        <% else %>
+            <br /><span><%= "No details found" %></span>
+        <% end %>
+		</div>
+
+</div>

@@ -1,0 +1,105 @@
+<div class="top_padding_50">
+  <div class="well well-sm">
+    <span class="pull-right">
+      <%= link_to "Back", :action => "index" %>
+    </span>
+		<span class="lead"> <%= resume_show_status_text(params[:action]) %> <%= @resumes.size %> </span> </br>
+    <span>
+      <% if @resumes.size == 0 %>
+        <%= "No Resumes Found" %>    
+      <% end %>
+    </span>  
+  </div>
+  <% if @resumes.size != 0 %>
+    <div class="well well-sm select_box_size">
+      <div class="table-sm table-responsive">
+        <table class="table table-striped table-condensed"> 
+          <thead >
+            <tr>
+              <th>Resume Name                                 </th>
+              <th>Education                                   </th>
+              <th>Exp                                         </th>
+              <th>Notice Period                               </th>
+							<% if params[:action] != "resumes_new" && params[:action] != "my_resumes" %>
+                <th>Status                                    </th>
+							<% end %>
+              <th>Upload Date                                 </th>
+              <th>Location                                    </th>
+							<% if params[:action] != "my_resumes" && params[:action] != "resumes_rejected" && params[:action] != "resumes_new" %>
+                <th>Requirements                              </th>
+							<% end %>
+				      <% if params[:action] != "my_resumes" && params[:action] != "resumes_rejected" && params[:action] != "resumes_future" %>
+                <th>Actions                                   </th>
+							<% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @resumes.each do |f| %>
+              <tr id="<%= "options1_" + f.id.to_s %>">
+                <td><p title='Qualification : <%= f.qualification %>&#13Experience : <%= f.experience %>&#13Company : <%= f.current_company %>' ><%=  link_to f.name, { :action => "show", :id => f.id } %></td>
+                <td><%= f.qualification %></td>
+                <td><%= f.experience %></td>
+                <td><%= f.notice %></td>
+							  <% if params[:action] != "resumes_new" && params[:action] != "my_resumes" %>
+                  <td><%= link_to "Add Status", :controller => "resumes", :action => "show_resumes_comments", :id => f.id, remote: true %></td>
+								<% end %>
+                <td><%= print_date(f.created_at) %></td>
+                <td><%= f.location %></td>
+                <% if(params[:action] == "shortlisted") %>
+                  <td><%= select_tag 'forward_req_ids_' + f.id.to_s, options_for_select(get_shortlisted_resumes(f)), :multiple => true %></td> 
+                <% elsif(params[:action] == "hold") %>
+                  <td><%= select_tag "forward_req_ids_" + f.id.to_s, options_for_select(get_holded_resumes(f)), :multiple => true %></td>
+                <% elsif(params[:action] == "forwarded") %>
+                  <td><%= select_tag 'forward_req_ids_' + f.id.to_s, options_for_select(get_forwarded_resumes(f)), :multiple => true %></td>
+                <% elsif(params[:action] == "resumes_future") %>
+                  <td><%= select_tag 'forward_req_ids_' + f.id.to_s, options_for_select(f.forwards.map{|forward| forward.requirements.collect(&:name)}), :multiple => true %></td>
+								<% end %>
+                <% if (params[:action] == "resumes_new") %>
+				          <td id=<%= "change_" + f.id.to_s %> >
+                    <%= link_to "Comment", :controller => "resumes", :action => "show_resumes_comments", :id => f.id, remote: true %> &nbsp; | &nbsp;
+                    <%= link_to "Forward", :controller => "resumes", :action => "show_reqs", :id => f.id, remote: true %> &nbsp; | &nbsp;
+                    <%= link_to "Reject",  :controller => "resumes", :action => "reject_resume", :id => f.id, :r_status => "REJECTED", remote: true %>
+                  </td>
+				        <% elsif params[:action] != "my_resumes" && params[:action] != "resumes_rejected" && params[:action] != "resumes_future" %>
+				          <td id=<%= "change_" + f.id.to_s %> >
+				            <ul class="nav" role="navigation">
+                      <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Action
+                          <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li> <%= link_to "Add Comment", :controller => "resumes", :action => "show_resumes_comments", :id => f.id, remote: true %></li>
+                          <li> <%= link_to "Forward to", :controller => "resumes", :action => "show_reqs", :id => f.id, remote: true %></li>
+                          <li> <%= link_to "Message", :controller => "resumes", :action => "show_message", :id => f.id, remote: true %></li>
+                          <li> <%= link_to "Shortlist", "#", :id => f.id, :onclick => "resume_action(event, \'#{f.id.to_s}\', #{f.id}, 'manager_holds', 'SHORTLISTED' );" %></li>
+                          <% if(params[:action] == "shortlisted") %>
+                            <li> <%= link_to "Hold", "#", :id => f.id, :onclick => "resume_action(event, \'#{f.id.to_s}\', #{f.id}, 'manager_holds', 'HOLD' );" %></li>
+                            <li> <%= link_to "Reject", "#", :id => f.id, :onclick => "resume_action(event, \'#{f.id.to_s}\', #{f.id}, 'manager_holds', 'REJECTED' );" %></li>
+                            <li> <%= link_to "Offer", "#", :id => f.id, :onclick => "resume_action(event, \'#{f.id.to_s}\', #{f.id}, 'manager_holds', 'OFFERED' );" %></li>
+                            <li> <%= link_to "Joining", "#", :id => f.id, :onclick => "resume_action(event, \'#{f.id.to_s}\', #{f.id}, 'manager_holds', 'JOINING' );" %></li>
+                          <% elsif(params[:action] == "forwarded") %>
+                            <li> <%= link_to "Hold", "#", :id => f.id, :onclick => "resume_action(event, \'#{f.id.to_s}\', #{f.id}, 'manager_forward_hold', 'HOLD');" %></li>
+                            <li> <%= link_to "Reject", "#", :id => f.id, :onclick => "resume_action(event, \'#{f.id.to_s}\', #{f.id}, 'manager_forward_hold', 'REJECTED');" %></li>
+                            <li> <%= link_to "Offer", "#", :id => f.id, :onclick => "resume_action(event, \'#{f.id.to_s}\', #{f.id}, 'manager_holds', 'OFFERED' );" %></li>
+                            <li> <%= link_to "Joining", "#", :id => f.id, :onclick => "resume_action(event, \'#{f.id.to_s}\', #{f.id}, 'manager_holds', 'JOINING' );" %></li>
+								          <% end %>
+													<% if params[:action] != "forwarded" %>
+													<% emp = logged_cur_emp %>
+													<% if emp.employee_type == "HR" || emp.employee_type == "ADMIN" %>
+                            <li> <%= link_to "Interviews", "#", :id => f.id, :onclick => "interview_action(event, \'#{f.id.to_s}\', #{f.id}, 'interview_add', 'NEW', 'SCHEDULED' );" %></li>
+													<% end %>
+													<% end %>
+                        </ul>
+                      </li>
+				            </ul>
+				          </td>
+					      <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>
+

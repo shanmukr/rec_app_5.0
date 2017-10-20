@@ -1,0 +1,7 @@
+<tr>
+  <td>
+	  <%= select_tag "agency", options_for_select(get_all_agencies_names) %>
+		<%= hidden_field_tag "type", "AGENCY" %>
+		<% link_to "If Agenciy is not in list. Add here", :controller => "agencies", :action => "new" %>
+  </td>
+</tr>

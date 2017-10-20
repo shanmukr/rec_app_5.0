@@ -1,0 +1,4 @@
+<% @groups.each do |group_name| %>
+    <h1><%= group_name.name %><h1> 
+    <%= render "requirements/req_analysis_type_table" %>
+<% end %>

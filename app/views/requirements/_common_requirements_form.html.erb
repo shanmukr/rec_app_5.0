@@ -1,0 +1,110 @@
+<div class="top_padding_50">
+    <div class="well well-sm">
+      <span class="lead">
+  	    <%= (go_action=="Edit") ? "Editing the Requirement" : "Create the new Requirement" %>
+      </span>
+      <span class="pull-right label">
+        <% if(go_action=="Edit") %>
+          <%= link_to "List of Requirements", :action => 'index' %> 
+          <%= link_to "Delete", @requirement, method: :delete, data:{ confirm: "You Want to delete the Requirement (#{@requirement.name})" },  class:"btn btn-danger" %>
+    		<% else %>
+          <%= link_to "Back", :action => "index" %>
+		    <% end %>
+      </span>       
+    </div>
+    <div class="well">
+      <% action = (go_action == "Edit") ? "update" : "create" %>
+      <%= form_for( @requirement, :url => { action: action } ) do |f| %>  
+        <div class="row">
+          <div class="lead col-sm-4">Requirement Name</div>
+          <div class="col-sm-4"> <%= f.text_field :name, :class => 'form-control' %> </div>
+			  </div>
+        <div class="row">
+          <div class="lead col-sm-4">Number of Positions</div>
+          <div class="col-sm-4"><%= f.text_field :nop, :class => "form-control" %></div>
+				</div>
+        <div class="row">
+          <div class="lead col-sm-4">Position Name</div>
+          <div class="col-sm-4"><%= f.collection_select( "designation_id", @designations, :id, :name, {:prompt => "Please Select"}, :class => "form-control" ) %></div>
+				</div>
+        <div class="row">
+          <div class="lead col-sm-4">Requirement Skill</div>
+          <div class="col-sm-4"><%= f.text_area :skill, :class => "form-control" %></div>
+        </div>
+        <div class="row">
+          <div class="lead col-sm-4" >Requirement Description</div>
+          <div class="col-sm-4"><%= f.text_area :description, :class => "form-control" %></div>
+        </div>
+        <div class="row">
+          <div class="lead col-sm-4">Management Comment</div>
+          <div class="col-sm-4"><%= f.text_area :mgt_comment, :class => "form-control"  %></div>
+        </div>
+        <div class="row">
+          <div class="lead col-sm-4">Start Date</div>
+          <div class="col-sm-4"><%= f.text_field :sdate, :class => "datepicker form-control" %></div>
+        </div>
+        <div class="row">
+          <div class="lead col-sm-4">End Date</div>
+          <div class="col-sm-4"><%= f.text_field :edate, :class => "datepicker form-control" %></div>
+        </div>
+        <% if(go_action=="Edit") %>
+          <% exp = @requirement.exp.split("-") %>
+          <% min_exp = exp[0] %>
+          <% max_exp = exp[1] %>
+          <div class="row">
+            <div class="lead col-sm-4">Required Experience</div>
+            <div class="col-sm-2"><%= f.select_tag "min_exp", options_for_select(get_experience_inyears), :class => "form-control" %></div>
+            <div class="col-sm-2"><%= f.select_tag "max_exp", options_for_select(get_experience_inyears), :class => "form-control" %></div>
+          </div>
+        <% else %>
+          <div class="row">
+            <div class="lead col-sm-4">Required Experience</div>
+            <div class="col-sm-2"><%= f.select_tag "req[min_exp]", options_for_select(get_experience_inyears), :class => "form-control" %></div>
+            <div class="col-sm-2"><%= f.select_tag "req[max_exp]", options_for_select(get_experience_inyears), :class => "form-control" %></div>
+          </div>
+        <% end %>
+        <div class="row">
+          <div class="lead col-sm-4">Group</div>
+          <div class="col-sm-4"><%= f.collection_select( "group_id", @groups, :id, :name, {:prompt => "Please Select"}, :class => "form-control" ) %></div>
+        </div>
+        <div class="row">
+          <div class="lead col-sm-4">Customer</div>
+          <div class="col-sm-4"><%= f.collection_select( "account_id", @accounts, :id, :name, {:prompt => "Please Select"}, :class => "form-control") %> </div>
+        </div>
+        <div class="row">
+          <div class="lead col-sm-4">Manger</div>
+          <div class="col-sm-4"><%= f.collection_select( "employee_id", @employees, :id, :name, {:prompt => "Please Select"}, :class => "form-control" ) %></div>
+        </div>
+        <div class="row">
+          <div class="lead col-sm-4">Source Owner</div>
+          <div class="col-sm-4"><%= f.collection_select( "source_owner", @employees, :id, :name, {:prompt => "Please Select"}, :class => "form-control" ) %></div>
+        </div>
+        <div class="row">
+          <div class="lead col-sm-4">Schedule Owner</div>
+          <div class="col-sm-4"><%= f.collection_select( "schedule_owner", @employees, :id, :name, {:prompt => "Please Select"}, :class => "form-control" ) %></div>
+        </div>
+        <div class="row">
+          <div class="lead col-sm-4">Posted By</div>
+          <div class="col-sm-4"><%= f.collection_select( "posting_emp_id", @employees, :id, :name, {:prompt => "Please Select"}, :class => "form-control" ) %></div>
+        </div>
+        <div class="row">
+          <div class="lead col-sm-4">Requirement Status</div>
+          <div class="col-sm-4"><%= f.select_tag "requirement[status]", options_for_select(req_status), :class => "form-control" %></div>
+        </div>
+        <div class="row">
+          <div class="lead col-sm-4">Requirement Type</div>
+          <div class="col-sm-4"><%= f.select_tag "requirement[req_type]", options_for_select(["ORDINARY", "HOT"]), :class => "form-control" %></div>
+        </div>
+        <%= f.submit ((go_action=="Edit") ? "Update" : "Save"), class:"btn btn-primary" %>
+        <% end %>
+        </div>
+      </div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+  $(".datepicker").datepicker(
+      {format: 'dd-mm-yyyy', autoclose: true, minDate: 0}
+      );
+})
+</script> 

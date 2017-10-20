@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mirafra Recruitment</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag "http://www.google.com/jsapi", "chartkick" %>
+    <%= stylesheet_link_tag 'http://yandex.st/bootstrap/3.1.1/css/bootstrap.min.css' %>
+    <%= javascript_include_tag 'http://yandex.st/bootstrap/3.1.1/js/bootstrap.min.js' %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <%= render "shared/header.html.erb" %>
+      <% flash.each do |key, value| %>
+        <div class="top_padding_50">
+          <div class="alert alert-<%= key %>">
+            <%= value %>
+            <%= link_to "&times;".html_safe, "#", :class=>"close"%>
+          </div>
+        </div>
+      <% end %>
+      <%= yield %>
+    </div>
+<!--
+    <footer>
+      <%= render "shared/footer.html.erb" %>
+    </footer>
+		-->
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<div class="top_padding_50">
+  <div class="well well-sm bottom_padding_45">
+    <span class="lead"> Requirements :</span>
+    <span class="badge"> <%= @requirements.size %></span>
+    <span class="pull-right">
+      <%= form_tag search_requirements_path, :method => "post", :id => "eid" do %>
+        <%= text_field_tag :search, params[:search] %>
+        <%= submit_tag 'Search'%>
+      <% end %>
+    </span>
+      <br />
+      <br />
+    <span class="pull-right">
+      <span class="lead blue_color"> Open Requirements, </span>
+      <span class="lead red_color"> Hot Requirements </span>
+      <% if params[:action] == "all" %>
+        <span class="lead green_color"> ,Closed Requirements</span>
+      <% end %>
+    </span>
+    <span class="pull-left">
+      <%= link_to "Add Requirement", new_requirement_path, class: "btn btn-primary" %>
+      <%= link_to "Requirement Analysis", req_analysis_requirements_path, class: "btn btn-primary" %>
+      <% if params[:action] == "index" %>
+        <%= link_to "All Requirements", all_requirements_path, class: "btn btn-primary" %>
+      <% else %>  
+        <%= link_to "Active Requirements", { :controller => "requirements", :action => "index" }, class: "btn btn-primary" %>
+      <% end %>
+      <%= link_to "Closed", closed_requirements_path, class: "btn btn-primary" %>
+    </span>
+  </div>
+  <div class="well well-sm">
+  <div class="table-sm table-responsive">
+  <%= form_tag( update_to_requirements_path ) do %>        
+    <table class="table table-striped table-condensed"> 
+      <thead >
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Skill/Desc</th>
+          <th style="width : 120px">Exp/Position</th>
+          <th>End</th>
+          <th style="width : 50px">Positions</th>
+          <th>Owner</th>
+          <th><%= submit_tag 'Close', data: {confirm: "Are you sure.you want to close the selected Requirement"}, class: "btn btn-danger" %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @requirements.each_with_index do |requirement, index| %>
+          <% if requirement.req_type == "HOT" %>
+            <tr class="link_to_font_color_hot" >
+          <% end %>
+          <% if requirement.status != "OPEN" %>
+            <tr class="link_to_font_color_closed" >
+          <% end %>
+          <td><%= index + 1 %></td>
+          <% if requirement.req_type == "HOT" %>
+            <% if ( requirement.status != "OPEN" ) %>
+              <td><p title='Skill : <%= requirement.skill %>&#13Desc : <%= requirement.description %>' ><%=  link_to requirement.name, { :action => "show", :id => requirement.id }, class: "link_to_font_color_closed" %></td>
+            <% else %>
+              <td><p title='Skill : <%= requirement.skill %>&#13Desc : <%= requirement.description %>' ><%=  link_to requirement.name, { :action => "show", :id => requirement.id }, class: "link_to_font_color_hot" %></td>
+            <% end %>
+          <% else %>
+            <% if ( requirement.status != "OPEN" ) %>
+              <td><p title='Skill : <%= requirement.skill %>&#13Desc : <%= requirement.description %>' ><%=  link_to requirement.name, { :action => "show", :id => requirement.id }, class: "link_to_font_color_closed" %></td>
+            <% else %>
+              <td><p title='Skill : <%= requirement.skill %>&#13Desc : <%= requirement.description %>' ><%=  link_to requirement.name, { :action => "show", :id => requirement.id } %></td>
+            <% end %>
+          <% end %>
+            <td><%= requirement.skill %></td>
+            <td><%= requirement.exp %> (<%= requirement.designation.name %>)</td>
+            <td><%= print_date(requirement.edate) %></td>
+            <td><%= requirement.nop%></td>
+            <td><%= requirement.employee.name %></td>
+            <td> <%= check_box_tag "req_status[]", requirement.id %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
+  </div>
+</div>
+</div>

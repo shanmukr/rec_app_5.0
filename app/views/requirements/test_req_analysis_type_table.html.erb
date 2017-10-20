@@ -1,0 +1,20 @@
+<table class="well table table-condensed  table-sm table-bordered" >
+  <thead>
+    <tr> 
+      <th> Designation Name </th>
+      <th><%= "#{@month - 2}/""#{@year}" %> </th>
+      <th><%= "#{@month - 1}/""#{@year}" %> </th>
+      <th><%= "#{@month}/""#{@year}" %> </th>
+   </tr>
+  </thead>
+  <tbody>
+    <% @designations.each do |desg_name| %>
+      <tr>
+        <td><%= desg_name[:name]  %></td>
+        <td><%=  %></td>
+        <td><%=  %></td>
+        <td><%=  %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

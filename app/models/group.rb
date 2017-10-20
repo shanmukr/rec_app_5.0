@@ -1,0 +1,8 @@
+class Group < ApplicationRecord
+  belongs_to              :employee
+  has_many                :requirements
+  
+validates_presence_of   :name, :employee_id
+  validates_uniqueness_of :name
+  auto_strip_attributes   :name, :squish => true
+end

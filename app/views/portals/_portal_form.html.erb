@@ -1,0 +1,20 @@
+<br /> <br />
+<%= form_for(@portal, :url =>  url_for(:host => "localhost:3000", :controller => "portals", :action => (button_tag == "Update" ? "update" : "create"))) do |f| %>
+  <% @portal.errors.full_messages.each do |msg| %>
+    <%= msg %>
+	<% end %>
+  <table id="portal_form_table">
+    <tr>
+      <td> Portal Name </td>
+      <td> <%= f.text_field :name %> </td>
+    </tr>
+    <tr>
+      <td class="portal_submit_button" colspan="2">
+        <%= f.submit("#{button_tag}") %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+<br />
+<%= link_to "List of portals", :host => "localhost:3000", :controller => "portals", :style => "color: #0000FF;" %> </div>
+<br /> <br />

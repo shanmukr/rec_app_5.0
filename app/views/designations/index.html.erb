@@ -1,0 +1,32 @@
+<div class="top_padding_50">
+  <div class="well well-sm">
+    <span class="lead"> Designations :</span>
+    <span class="badge"> <%= @designations.size %></span>
+    <span class="pull-right">
+      <%= link_to 'Add Designation', new_designation_path, :class=>"btn btn-primary" %>
+    </span>
+  </div>
+  
+  <div class="well table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Desigantion Name </th>
+          <th>Created on</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @designations.each_with_index do |designation, index| %>
+          <tr>
+            <td><%= index + 1 %></td>  
+            <td><%= designation.name %></td>  
+            <td><%= print_date(designation.created_at) %></td>
+            <td><%= link_to 'Edit', edit_designation_path(designation) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

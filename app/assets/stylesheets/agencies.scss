@@ -1,0 +1,11 @@
+// Place all the styles related to the Agencies controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.alternate_colors:nth-child(even){
+  background-color: #ffffff;
+}
+
+.alternate_colors:nth-child(odd){
+  background-color: #f5f5dc;
+}

@@ -1,0 +1,6 @@
+<tr>
+  <td>
+    <%= text_field_tag :search, params[:search], :onfocus => 'auto_complete_for_emp_names_at_req_cont()', :placeholder => "Search by employee name" %>
+		<%= hidden_field_tag "type", "EMPLOYEE" %>
+  </td>
+</tr>

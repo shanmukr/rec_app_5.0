@@ -1,0 +1,24 @@
+<tr id="hide">
+  <td>
+	  <%= form_tag(hr_forwards_resumes_path, :onsubmit => "auto_hide_the_fields(event, \'#{@resume}\', 'Forwarded');", remote: true) do %>
+      <table class="table table-striped table-condensed"> 
+        <thead >
+          <tr>
+            <th>Requirement</th>
+            <th>Select</th>
+			      <th><%= submit_tag "Go", class: "btn btn-primary" %></th>
+				  </tr>
+			  </thead>
+			  <tbody>
+				<% @requirements.each do |f| %>
+				  <tr>
+					  <%= hidden_field_tag "r_id", @res_id.to_i  %>
+						<td><%= f.name %></td>
+            <td><%= check_box_tag "req_status[]", f.id %></td>
+					</tr>
+				<% end %>
+			  </tbody>
+		  </table>
+		<% end %>
+  </td>
+</tr>

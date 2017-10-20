@@ -1,0 +1,22 @@
+<% if logged_cur_emp %>
+<div class="pull_down"> 
+  <div class="well well-sm"> 
+    <div class="navbar-collapse collapse">
+      <ul class="nav nav-pills nav-justified">
+        <% obj = logged_cur_emp %>
+        <% if (obj['employee_type'] == "HR" ) %>
+          <li> <%= link_to "New", :controller => "resumes", :action => "resumes_new" %></li>
+        <% end %>
+        <li> <%= link_to "Forwarded", :controller => "resumes", :action => "forwarded" %></li>
+        <li> <%= link_to "Shortlisted", :controller => "resumes", :action => "shortlisted" %></li>
+        <li> <%= link_to "Interviews", :controller => "resumes", :action => "scheduled_interviews" %></li>
+        <li> <%= link_to "Hold", :controller => "resumes", :action => "hold" %></li>
+        <li> <%= link_to "Rejected", :controller => "resumes", :action => "resumes_rejected" %></li>
+        <li> <%= link_to "Offered", :controller => "resumes", :action => "resumes_offered" %></li>
+        <li> <%= link_to "Joining", :controller => "resumes", :action => "resumes_joining" %></li>
+        <li> <%= link_to "Future", :controller => "resumes", :action => "resumes_future" %></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<% end %>

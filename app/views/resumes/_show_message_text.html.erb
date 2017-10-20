@@ -1,0 +1,10 @@
+<tr id="hide">
+  <td>
+	  <%= form_tag(message_new_resumes_path, :onsubmit => "auto_hide_the_fields(event, \'#{@resume}\', 'Sent');", remote: true) do %>
+      <%= text_field_tag :emp_name, nil, :onfocus => 'auto_complete_for_emp_names_at_resumes_mesg()', :placeholder => "Search employee name" %>
+      <%= text_field_tag "message",nil, :id => @resume %>
+			<%= hidden_field_tag "id", @resume %>
+			<%= submit_tag "Go" %>
+		<% end %>
+  </td>
+</tr>

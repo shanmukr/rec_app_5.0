@@ -1,0 +1,22 @@
+<tr id="hide">
+  <td>
+	  <%= form_tag(req_match_hold_resumes_path, :onsubmit => "auto_hide_the_fields(event, \'#{@resume}\', \'#{@status}\');", remote: true) do %>
+      <%= text_field_tag "jdate", nil, class: "datepicker" %>
+      <%#= text_field_tag "jdate", nil, class: "datepicker1", :onclick => "datepicker_1(event);" %>
+      <%= text_area_tag "comment", nil, :id => @resume %>
+			<%= hidden_field_tag "resume_id", @resume %>
+			<%= hidden_field_tag "type", "USER" %>
+			<%= hidden_field_tag "req_id", @req_ids %>
+			<%= hidden_field_tag "status", @status %>
+			<%= submit_tag "Go" %>
+		<% end %>
+  </td>
+</tr>
+
+<script>
+$(document).ready(function(){
+  $(".datepicker").datepicker(
+      {format: 'yyyy-mm-dd', autoclose: true, minDate: 0}
+      );
+})
+</script> 

@@ -1,0 +1,20 @@
+<br /> <br />
+<%= form_for(@designation, :url =>  url_for(:host => "localhost:3000", :controller => "designations", :action => (button_tag == "Update" ? "update" : "create"))) do |f| %>
+  <% @desination.errors.full_messages.each do |msg| %>
+    <%= msg %>
+	<% end %>
+  <table id="designation_form_table">
+    <tr>
+      <td> Designation Name </td>
+      <td> <%= f.text_field :name %> </td>
+    </tr>
+    <tr>
+      <td class="designation_submit_button" colspan="2">
+        <%= f.submit("#{button_tag}") %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+<br />
+<%= link_to "List of designations", :host => "localhost:3000", :controller => "designations", :action => "index", :style => "color: #0000FF;" %> </div>
+
