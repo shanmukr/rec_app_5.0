@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # README
 
 This README would normally document whatever steps are necessary to get the
@@ -22,3 +23,6 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+=======
+# rec_app_5.0
+>>>>>>> 505fd1059e3d7a4d44462a0eea0772ee9aa9f1e7
